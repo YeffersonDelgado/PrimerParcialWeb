@@ -16,11 +16,11 @@ public class PacienteDao {
 	
 	private ConexionPostgreSQL conexion;
 	
-	private static final String INSERT_USUARIO_SQL = "INSERT INTO usuario(nombre, email, pais) VALUES(?, ?, ?);";
-	private static final String DELETE_USUARIO_SQL = "DELETE FROM usuario WHERE id=?;";
-	private static final String UPDATE_USUARIO_SQL = "UPDATE usuario SET nombre = ?, email = ?, pais = ? WHERE id = ?;";
-	private static final String SELECT_USUARIO_BY_ID = "SELECT * FROM usuario WHERE id = ?;";
-	private static final String SELECT_ALL_USUARIO = "SELECT * FROM usuario;";
+	private static final String INSERT_PACIENTE_SQL = "INSERT INTO paciente (documento, nombre, apellido, email, genero, fechaNacimiento, telefono, direccion, peso, estatura) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String DELETE_PACIENTE_SQL = "DELETE FROM paciente WHERE id=?;";
+	private static final String UPDATE_PACIENTE_SQL = "UPDATE paciente SET documento = ?, nombre = ?, apellido = ?, email = ?, genero = ?, fechaNacimiento = ?, telefono = ?, direccion = ?, peso = ?, estatura = ?   WHERE id = ?;";
+	private static final String SELECT_PACIENTE_BY_ID = "SELECT * FROM paciente WHERE id = ?;";
+	private static final String SELECT_ALL_PACIENTE = "SELECT * FROM paciente;";
 	
 	
 	
@@ -34,7 +34,7 @@ public class PacienteDao {
 	public void insert(Paciente paciente) throws SQLException {
 		
 		try {
-			PreparedStatement preparedStatement = conexion.setPreparedStatement(INSERT_USUARIO_SQL);
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(INSERT_PACIENTE_SQL);
 			preparedStatement.setInt(1, paciente.getDocumento());
 			preparedStatement.setString(2, paciente.getNombre());
 			preparedStatement.setString(3, paciente.getApellido());
@@ -44,7 +44,7 @@ public class PacienteDao {
 			preparedStatement.setString(7, paciente.getTelefono());
 			preparedStatement.setString(8, paciente.getDireccion());
 			preparedStatement.setInt(9, paciente.getPeso());
-			preparedStatement.setInt(10, paciente.getEstatura());
+			preparedStatement.setFloat(10, paciente.getEstatura());
 
 
 			conexion.execute();
@@ -57,7 +57,7 @@ public class PacienteDao {
 	
 	public void delete(int id) throws SQLException {
 		try {
-			PreparedStatement preparedStatement = conexion.setPreparedStatement(DELETE_USUARIO_SQL);
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(DELETE_PACIENTE_SQL);
 			preparedStatement.setInt(1, id);
 			conexion.execute();
 
@@ -69,7 +69,7 @@ public class PacienteDao {
 	
 	public void update(Paciente paciente) throws SQLException {
 		try {
-			PreparedStatement preparedStatement = conexion.setPreparedStatement(UPDATE_USUARIO_SQL);
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(UPDATE_PACIENTE_SQL);
 			preparedStatement.setInt(1, paciente.getDocumento());
 			preparedStatement.setString(2, paciente.getNombre());
 			preparedStatement.setString(3, paciente.getApellido());
@@ -79,7 +79,7 @@ public class PacienteDao {
 			preparedStatement.setString(7, paciente.getTelefono());
 			preparedStatement.setString(8, paciente.getDireccion());
 			preparedStatement.setInt(9, paciente.getPeso());
-			preparedStatement.setInt(10, paciente.getEstatura());
+			preparedStatement.setFloat(10, paciente.getEstatura());
 			preparedStatement.setInt(11, paciente.getId());
 			
 			conexion.execute();
@@ -95,7 +95,7 @@ public class PacienteDao {
 		List<Paciente> pacientes = new ArrayList<>();
 		
 		try {
-			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_USUARIO);
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_ALL_PACIENTE);
             ResultSet rs = conexion.query();
             
             while(rs.next()) {
@@ -109,7 +109,7 @@ public class PacienteDao {
             	String telefono = rs.getString("telefono");
             	String direccion = rs.getString("direccion");
             	int peso = rs.getInt("peso");
-            	int estatura = rs.getInt("estatura");
+            	int estatura = (int) rs.getFloat("estatura");
             	
             
             	
@@ -133,7 +133,7 @@ public class PacienteDao {
 	    Paciente paciente = null;
 		
 		try {
-			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_USUARIO_BY_ID);
+			PreparedStatement preparedStatement = conexion.setPreparedStatement(SELECT_PACIENTE_BY_ID);
             preparedStatement.setInt(1, id);
 			
 			ResultSet rs = conexion.query();
@@ -150,7 +150,7 @@ public class PacienteDao {
             	String telefono = rs.getString("telefono");
             	String direccion = rs.getString("direccion");
             	int peso = rs.getInt("peso");
-            	int estatura = rs.getInt("estatura");
+            	int estatura = (int) rs.getFloat("estatura");
             	
             	paciente = new Paciente(id, documento, nombre, apellido, email, 
             			genero, fechaNacimiento, telefono, direccion, peso, estatura);

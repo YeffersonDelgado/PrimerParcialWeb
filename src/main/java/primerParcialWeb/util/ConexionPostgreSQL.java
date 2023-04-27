@@ -13,7 +13,7 @@ public class ConexionPostgreSQL {
 	private PreparedStatement preparedStatement;
 
 	private final static String url = "jdbc:postgresql://localhost:5432/";
-	private final static String dbName = "sistema";
+	private final static String dbName = "pweb";
 	private final static String driver = "org.postgresql.Driver";
 	private final static String userName = "postgres";
 	private final static String password = "admin";

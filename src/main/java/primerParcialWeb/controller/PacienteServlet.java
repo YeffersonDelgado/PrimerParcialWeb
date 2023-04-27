@@ -53,20 +53,20 @@ public class PacienteServlet extends HttpServlet {
 				showNewForm(request, response);
 				break;
 			case "/insert":
-				insertarUsuario(request, response);
+				insertarPaciente(request, response);
 				break;
 			case "/delete":
-				eliminarUsuario(request, response);
+				eliminarPaciente(request, response);
 				break;
 			case "/edit":
 				showEditForm(request, response);
 				break;
 			case "/update":
-				actualizarUsuario(request, response);
+				actualizarPaciente(request, response);
 
 				break;
 			default:
-				listUsuarios(request, response);
+				listPaciente(request, response);
 				break;
 
 			}
@@ -89,11 +89,11 @@ public class PacienteServlet extends HttpServlet {
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("paciente.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private void insertarUsuario(HttpServletRequest request, HttpServletResponse response)
+	private void insertarPaciente(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
 		int documento = Integer.parseInt(request.getParameter("documento"));
@@ -125,14 +125,14 @@ public class PacienteServlet extends HttpServlet {
 
 		Paciente pacienteActual = pacienteDao.select(id);
 
-		request.setAttribute("usuario", pacienteActual);
+		request.setAttribute("paciente", pacienteActual);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuario.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("paciente.jsp");
 		dispatcher.forward(request, response);
 
 	}
 
-	private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response)
+	private void actualizarPaciente(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -159,7 +159,7 @@ public class PacienteServlet extends HttpServlet {
 
 	}
 
-	private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response)
+	private void eliminarPaciente(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -169,13 +169,13 @@ public class PacienteServlet extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void listUsuarios(HttpServletRequest request, HttpServletResponse response)
+	private void listPaciente(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
-		List<Paciente> listUsuarios = pacienteDao.selectAll();
-		request.setAttribute("listUsuarios", listUsuarios);
+		List<Paciente> listPacientes = pacienteDao.selectAll();
+		request.setAttribute("listPacientes", listPacientes);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("usuariolist.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("pacientelist.jsp");
 		dispatcher.forward(request, response);
 
 	}
